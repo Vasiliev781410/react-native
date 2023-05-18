@@ -16,6 +16,7 @@ import {
 } from "react-native";
 
 export default function RegistrationScreen() {
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,6 +28,10 @@ export default function RegistrationScreen() {
   const onLogin = () => {
     Alert.alert("Credentials", `${name} + ${email} +${password}`);
     console.log("Credentials", `${name} + ${email} +${password}`);
+  };
+
+  const onShowPass = () => {    
+    setSecureTextEntry(!secureTextEntry);
   };
 
   return (
@@ -60,10 +65,10 @@ export default function RegistrationScreen() {
                     value={password}
                     onChangeText={passwordHandler}
                     placeholder="Пароль"
-                    secureTextEntry={true}
+                    secureTextEntry={secureTextEntry}
                     style={styles.input}
                   />
-                  <TouchableOpacity style={styles.navigate__btn}>
+                  <TouchableOpacity style={styles.navigate__btn} onPress={onShowPass}>
                     <Text style={styles.showBtn}>Показати</Text>
                   </TouchableOpacity> 
                 </View>                                            

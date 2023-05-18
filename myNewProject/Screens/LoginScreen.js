@@ -16,8 +16,9 @@ import {
 } from "react-native";
 
 export default function LoginScreen() { 
-  const [email, setEmail] = useState("");
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPassword(text);
@@ -26,13 +27,15 @@ export default function LoginScreen() {
     Alert.alert("Credentials", `${email} +${password}`);
     console.log("Credentials", `${email} +${password}`);
   };
-
+  const onShowPass = () => {    
+    setSecureTextEntry(!secureTextEntry);
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground  style={styles.imgBgr} source={require('../assets/background.png')}>
             <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              behavior={Platform.OS == "ios" && "padding"}
             >
              <View style={styles.form}>
                   <Text style={styles.title}>Увійти</Text>
@@ -47,10 +50,10 @@ export default function LoginScreen() {
                     value={password}
                     onChangeText={passwordHandler}
                     placeholder="Пароль"
-                    secureTextEntry={true}
+                    secureTextEntry={secureTextEntry}
                     style={styles.input}
                   />
-                  <TouchableOpacity style={styles.navigate__btn}>
+                  <TouchableOpacity style={styles.navigate__btn} onPress={onShowPass}>
                     <Text style={styles.showBtn}>Показати</Text>
                   </TouchableOpacity> 
                 </View>                                            
