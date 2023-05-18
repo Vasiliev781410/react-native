@@ -24,6 +24,7 @@ export default function LoginScreen() {
 
   const onLogin = () => {
     Alert.alert("Credentials", `${email} +${password}`);
+    console.log("Credentials", `${email} +${password}`);
   };
 
   return (
