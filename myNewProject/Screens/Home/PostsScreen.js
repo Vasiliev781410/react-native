@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View } from 'react-native';
+import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function PostsScreen() { 
@@ -16,6 +16,9 @@ export default function PostsScreen() {
                 </View>
             </View>
             <View style={styles.post}>
+                <View style={styles.iconLoadPhoto__container}>
+                    <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
+                </View>
             </View>
             <Text style={styles.titlePost}>Ліс</Text>
             <View style={styles.postInfo}>
@@ -23,8 +26,9 @@ export default function PostsScreen() {
                     <ImageBackground  style={styles.imgBgr} source={require('../../assets/message-circle.png')}/>
                     <Text style={styles.comments}>0</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity  style={styles.commentsContainer}>
                     <ImageBackground  style={styles.imgBgr} source={require('../../assets/map-pin.png')}/>
+                    <Text style={styles.region}>Ivano-Frankivs'k Region, Ukraine</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -32,9 +36,11 @@ export default function PostsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: {        
+    container: { 
+        flex: 1,       
         paddingLeft: 16,
-        paddingRight: 16,       
+        paddingRight: 16, 
+        backgroundColor: "#FFFFFF",        
     },
     userContainer: {
         display: "flex",
@@ -64,6 +70,7 @@ const styles = StyleSheet.create({
         color: "#212121",        
     },
     post: {
+        position: "relative",
         marginTop: 32,
         marginBottom: 8, 
         marginLeft: "auto",
@@ -83,7 +90,8 @@ const styles = StyleSheet.create({
         flexDirection:'row', 
         flexWrap:'wrap',
         alignItems: "center",
-        paddingTop: 32,            
+        justifyContent: "space-between",
+        paddingTop: 8,            
     },
     imgBgr: {              
         width: 24,
@@ -98,5 +106,24 @@ const styles = StyleSheet.create({
     comments: {
         fontSize: 16,
         color: "#BDBDBD",
-    }
+    },
+    iconLoadPhoto__container: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",        
+        top: 90,
+        right: "42%",      
+        width: 60,
+        height: 60,
+        backgroundColor: "#FFFFFF",    
+        borderRadius: 50,      
+    },
+    iconLoadPhoto__img: {        
+        width: 24,
+        height: 24,   
+    }, 
+    region: {
+        color: "#212121",
+    },
 });

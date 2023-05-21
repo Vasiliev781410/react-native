@@ -85,7 +85,7 @@ export default function RegistrationScreen() {
                 <TouchableOpacity style={styles.register__btn} onPress={onLogin}>
                     <Text style={styles.register__textBtn} >Зареєструватися</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Вхід")}>
                   <Text style={styles.navigate__textBtn} >Уже есть аккаунт? Войти</Text>
                 </TouchableOpacity>                                                       
               </View>
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: "center",
+    backgroundColor: "#FFFFFF",  
   },
   img__container: {
     position: "relative",

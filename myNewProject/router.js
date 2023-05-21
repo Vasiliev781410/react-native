@@ -17,7 +17,7 @@ export const useRoute = (isAuth) => {
         <MainStack.Screen name="Вхід" component={LoginScreen} options={{headerShown: false}}/>
       </MainStack.Navigator>
     }else{
-        return <TabStack.Navigator initialRouteName="Home" tabBarOptions={{showLabel: false}}>            
+        return <TabStack.Navigator initialRouteName="Home" screenOptions={{"tabBarShowLabel": false}}>            
             <TabStack.Screen name="Створити публікацію" component={CreatePostsScreen}/>
             <TabStack.Screen name="Публікації" component={PostsScreen}/>
             <TabStack.Screen name="Профіль" component={ProfileScreen} options={{headerShown: false}}/>
