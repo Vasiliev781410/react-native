@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -16,14 +17,20 @@ import {
 } from "react-native";
 
 export default function RegistrationScreen() {
+  const navigation = useNavigation();
+
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [currentInp, setCurrentInp] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const nameHandler = (text) => setName(text);
-  const emailHandler = (text) => setEmail(text);
+  const nameFocus = (text) =>  setCurrentInp("name");
+  const emailHandler = (text) => setEmail(text);  
+  const emailFocus = (text) => setCurrentInp("email");
   const passwordHandler = (text) => setPassword(text);
+  const passwordFocus = (text) => setCurrentInp("password");
 
   const onLogin = () => {
     Alert.alert("Credentials", `${name} + ${email} +${password}`);
@@ -51,22 +58,25 @@ export default function RegistrationScreen() {
                 <TextInput
                   value={name}
                   onChangeText={nameHandler}
+                  onFocus={nameFocus}
                   placeholder="Логін"
-                  style={styles.input}
+                  style={currentInp === "name" ? styles.inputActive : styles.input}
                 />
                   <TextInput
                     value={email}
                     onChangeText={emailHandler}
+                    onFocus={emailFocus}
                     placeholder="Адреса електронної пошти"
-                    style={styles.input}
+                    style={currentInp === "email" ? styles.inputActive : styles.input}
                   /> 
                 <View style={styles.password__container}>                            
                   <TextInput
                     value={password}
                     onChangeText={passwordHandler}
+                    onFocus={passwordFocus}
                     placeholder="Пароль"
                     secureTextEntry={secureTextEntry}
-                    style={styles.input}
+                    style={currentInp === "password" ? styles.inputActive : styles.input}
                   />
                   <TouchableOpacity style={styles.navigate__btn} onPress={onShowPass}>
                     <Text style={styles.showBtn}>Показати</Text>
@@ -75,7 +85,7 @@ export default function RegistrationScreen() {
                 <TouchableOpacity style={styles.register__btn} onPress={onLogin}>
                     <Text style={styles.register__textBtn} >Зареєструватися</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity style={styles.navigate__btn}>
+                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Login")}>
                   <Text style={styles.navigate__textBtn} >Уже есть аккаунт? Войти</Text>
                 </TouchableOpacity>                                                       
               </View>
@@ -122,6 +132,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: "#F6F6F6",
     borderColor: "#E8E8E8",
+    borderRadius: 8,
+    marginBottom: 16,
+    marginLeft: "auto",
+    marginRight: "auto",
+  }, 
+  inputActive: {   
+    width: 343,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    backgroundColor: "#F6F6F6",
+    borderColor: "#FF6C00",
     borderRadius: 8,
     marginBottom: 16,
     marginLeft: "auto",
