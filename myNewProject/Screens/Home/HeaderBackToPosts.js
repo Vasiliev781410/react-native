@@ -1,18 +1,17 @@
- 
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function CommentsScreen() {
+export default function HeaderBackToPosts({title}) {
     const navigation = useNavigation();
 
     return (
         <>
-            <View style={styles.container}>
-                <Text style={styles.title}>Публікації</Text>             
-                <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("Login")}>                
-                    <ImageBackground  style={styles.imglogout} source={require('../../assets/log-out.png')}/>
+            <View style={styles.container}>                            
+                <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("Posts")}>                
+                    <ImageBackground  style={styles.imglogout} source={require('../../assets/arrow-left.png')}/>
                 </TouchableOpacity>
+                <Text style={styles.title}>{title}</Text> 
             </View> 
         </>
                 
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     imglogout: {
         position: "absolute",
         top: "0%", 
-        right: "-370%",
+        right: "230%",
         width: 24,
         height: 24,
     }

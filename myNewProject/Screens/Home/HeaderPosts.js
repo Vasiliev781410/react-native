@@ -1,15 +1,14 @@
- 
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function CommentsScreen() {
+export default function HeaderPosts({title}) {
     const navigation = useNavigation();
 
     return (
         <>
             <View style={styles.container}>
-                <Text style={styles.title}>Публікації</Text>             
+                <Text style={styles.title}>{title}</Text>             
                 <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("Login")}>                
                     <ImageBackground  style={styles.imglogout} source={require('../../assets/log-out.png')}/>
                 </TouchableOpacity>
