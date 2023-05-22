@@ -4,6 +4,7 @@ import { StyleSheet, ImageBackground, View} from 'react-native';
 import PostsScreen from './PostsScreen';
 import CreatePostsScreen from './CreatePostsScreen';
 import ProfileScreen from './ProfileScreen';
+import CommentsScreen from './CommentsScreen';
 
 export default function HomeScreen() {
     const TabStack = createBottomTabNavigator();
@@ -27,7 +28,7 @@ export default function HomeScreen() {
                 inactiveTintColor: "gray",                            
               }}
               >  
-                <TabStack.Screen name="Posts" component={PostsScreen} options={{title: "Публікації"}}/>            
+                <TabStack.Screen name="Posts" component={PostsScreen} options={{title: "Публікації", headerTitle: (props) => <CommentsScreen {...props} /> }}/>            
                 <TabStack.Screen name="Create" component={CreatePostsScreen} options={{title: "Створити публікацію"}}/>                           
                 <TabStack.Screen name="Profile" component={ProfileScreen} options={{headerShown: false, title: "Профіль"}}/>
             </TabStack.Navigator> 
