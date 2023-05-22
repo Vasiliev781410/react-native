@@ -33,7 +33,7 @@ export default function RegistrationScreen() {
   const passwordFocus = (text) => setCurrentInp("password");
 
   const onLogin = () => {
-    Alert.alert("Credentials", `${name} + ${email} +${password}`);
+   // Alert.alert("Credentials", `${name} + ${email} +${password}`);
     console.log("Credentials", `${name} + ${email} +${password}`);
   };
 
@@ -49,11 +49,11 @@ export default function RegistrationScreen() {
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
              <View style={styles.form}>
-              <View style={styles.img__container}>
-                <TouchableOpacity>
-                  <ImageBackground  style={styles.imgAddBtn} source={require('../assets/add.png')}/>
-                </TouchableOpacity>                
-              </View> 
+              <TouchableOpacity>
+                <View style={styles.img__container}>                
+                  <ImageBackground  style={styles.imgAddBtn} source={require('../assets/add.png')}/>                               
+                </View> 
+              </TouchableOpacity> 
                 <Text style={styles.title}>Реєстрація</Text>
                 <TextInput
                   value={name}
@@ -85,7 +85,7 @@ export default function RegistrationScreen() {
                 <TouchableOpacity style={styles.register__btn} onPress={onLogin}>
                     <Text style={styles.register__textBtn} >Зареєструватися</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Вхід")}>
+                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Login")}>
                   <Text style={styles.navigate__textBtn} >Уже есть аккаунт? Войти</Text>
                 </TouchableOpacity>                                                       
               </View>

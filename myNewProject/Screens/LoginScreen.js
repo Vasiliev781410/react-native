@@ -30,8 +30,9 @@ export default function LoginScreen() {
   const passwordFocus = (text) => setCurrentInp("password");
                     
   const onLogin = () => {
-    Alert.alert("Credentials", `${email} +${password}`);
+    //Alert.alert("Credentials", `${email} +${password}`);
     console.log("Credentials", `${email} +${password}`);
+    navigation.navigate("Home");
   };
   const onShowPass = () => {    
     setSecureTextEntry(!secureTextEntry);
@@ -68,7 +69,7 @@ export default function LoginScreen() {
                 <TouchableOpacity style={styles.register__btn} onPress={onLogin}>
                     <Text style={styles.register__textBtn} >Увійти</Text>
                 </TouchableOpacity> 
-                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Реєстрація")}>
+                <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Registration")}>
                   <Text style={styles.navigate__textBtn} >Немає аккаунта? Зареєструватися</Text>
                 </TouchableOpacity>                                                       
               </View>

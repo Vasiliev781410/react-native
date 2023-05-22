@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 export default function PostsScreen() { 
 
@@ -16,18 +15,15 @@ export default function PostsScreen() {
                 </View>
             </View>
             <View style={styles.post}>
-                <View style={styles.iconLoadPhoto__container}>
-                    <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
-                </View>
             </View>
             <Text style={styles.titlePost}>Ліс</Text>
             <View style={styles.postInfo}>
                 <TouchableOpacity style={styles.commentsContainer}>
-                    <ImageBackground  style={styles.imgBgr} source={require('../../assets/message-circle.png')}/>
+                    <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
                     <Text style={styles.comments}>0</Text>
                 </TouchableOpacity>
                 <TouchableOpacity  style={styles.commentsContainer}>
-                    <ImageBackground  style={styles.imgBgr} source={require('../../assets/map-pin.png')}/>
+                    <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
                     <Text style={styles.region}>Ivano-Frankivs'k Region, Ukraine</Text>
                 </TouchableOpacity>
             </View>
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingTop: 8,            
     },
-    imgBgr: {              
+    imgComments: {              
         width: 24,
         height: 24, 
     },
@@ -104,6 +100,7 @@ const styles = StyleSheet.create({
         flexWrap:'wrap',
     },
     comments: {
+        marginLeft: 6,
         fontSize: 16,
         color: "#BDBDBD",
     },
@@ -124,6 +121,8 @@ const styles = StyleSheet.create({
         height: 24,   
     }, 
     region: {
+        marginLeft: 4,
         color: "#212121",
+        textDecorationLine: "underline",
     },
 });

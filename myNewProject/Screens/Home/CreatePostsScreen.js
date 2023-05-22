@@ -17,12 +17,14 @@ export default function CreatePostsScreen() {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>         
             <View style={styles.container}> 
                 <KeyboardAvoidingView
-                 behavior={Platform.OS == "ios" ? "padding" : "height"}>            
-                    <View style={styles.post}>
-                        <View style={styles.iconLoadPhoto__container}>
-                            <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
+                 behavior={Platform.OS == "ios" ? "padding" : "height"}> 
+                    <TouchableOpacity>            
+                        <View style={styles.post}>
+                            <View style={styles.iconLoadPhoto__container}>
+                                <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity> 
                     <Text style={styles.titlePost}>Завантажте фото</Text>          
                     <TextInput
                         value={name}
@@ -41,7 +43,7 @@ export default function CreatePostsScreen() {
                             <ImageBackground  style={styles.imgBgr} source={require('../../assets/map-pin.png')}/>
                         </TouchableOpacity>
                     </View> 
-                    <TouchableOpacity style={styles.register__btn} onPress={() => navigation.navigate("Публікації")}>
+                    <TouchableOpacity style={styles.register__btn} onPress={() => navigation.navigate("Posts")}>
                         <Text style={styles.register__textBtn}>Опубліковати</Text>
                     </TouchableOpacity>     
                 </KeyboardAvoidingView>
