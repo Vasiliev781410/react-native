@@ -65,13 +65,13 @@ export default function CreatePostsScreen() {
                             style={styles.camera}
                             type={type}
                             ref={setCameraRef}
-                        >
-                            <View style={styles.takePhotoContainer}>
-                                <Image source={{uri: photo}} style={{flex: 1}}/>
-                            </View>
+                        >                                                      
                             <View style={styles.iconLoadPhoto__container}>
                                 <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
                             </View>
+                            {photo && <View style={styles.takePhotoContainer}>
+                                <Image source={{uri: photo}} style={{flex: 1}}/>
+                            </View>}
                         </Camera>
                         </TouchableOpacity> 
                     </View>
@@ -94,7 +94,7 @@ export default function CreatePostsScreen() {
                             <ImageBackground  style={styles.imgBgr} source={require('../../assets/map-pin.png')}/>
                         </TouchableOpacity>
                     </View> 
-                    <TouchableOpacity style={styles.register__btn} onPress={() => navigation.navigate("Posts")}>
+                    <TouchableOpacity style={styles.register__btn} onPress={() => navigation.navigate("Posts",{photo})}>
                         <Text style={styles.register__textBtn}>Опубліковати</Text>
                     </TouchableOpacity>     
                 </KeyboardAvoidingView>
@@ -169,8 +169,7 @@ const styles = StyleSheet.create({
     imgBgr: {  
         position: "absolute",            
         width: 24,
-        height: 24, 
-        zIndex: 100,
+        height: 24,       
     },
     commentsContainer: {
         display: "flex",
@@ -192,7 +191,8 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         backgroundColor: "#FFFFFF",    
-        borderRadius: 50,      
+        borderRadius: 50, 
+        zIndex: 100,     
     },
     iconLoadPhoto__img: {        
         width: 24,

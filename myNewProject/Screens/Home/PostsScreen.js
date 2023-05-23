@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { useRoute } from '@react-navigation/native';
 
-export default function PostsScreen() { 
+import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View, FlatList} from 'react-native';
 
-    const [posts, setPosts] = useState("");
+export default function PostsScreen() {
+    const { params } = useRoute();
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => { 
+        if (params){      
+            setPosts(prevState => [...prevState, params]);
+        }
+    }, [params]);
+    
 
     return (
         <View style={styles.container}>
@@ -14,19 +23,29 @@ export default function PostsScreen() {
                     <Text style={styles.email}>email@example.com</Text>
                 </View>
             </View>
-            <View style={styles.post}>
-            </View>
-            <Text style={styles.titlePost}>Ліс</Text>
-            <View style={styles.postInfo}>
-                <TouchableOpacity style={styles.commentsContainer}>
-                    <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
-                    <Text style={styles.comments}>0</Text>
-                </TouchableOpacity>
-                <TouchableOpacity  style={styles.commentsContainer}>
-                    <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
-                    <Text style={styles.region}>Ivano-Frankivs'k Region, Ukraine</Text>
-                </TouchableOpacity>
-            </View>
+            <FlatList 
+                data={posts}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={( {item} ) => (
+                    <View style={styles.postCard}>
+                        <View style={styles.post}>
+                            <Image style={{flex: 1}} source={{uri: item.photo}}></Image>  
+                        </View>
+                        <Text style={styles.titlePost}>Ліс</Text>
+                        <View style={styles.postInfo}>
+                            <TouchableOpacity style={styles.commentsContainer}>
+                                <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
+                                <Text style={styles.comments}>0</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity  style={styles.commentsContainer}>
+                                <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
+                                <Text style={styles.region}>Ivano-Frankivs'k Region, Ukraine</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )}
+            >
+            </FlatList>
         </View>
     );
 }
@@ -124,5 +143,9 @@ const styles = StyleSheet.create({
         marginLeft: 4,
         color: "#212121",
         textDecorationLine: "underline",
+    },
+    postCard: {
+        marginBottom: 32,
+        justifyContent: "center",     
     },
 });
