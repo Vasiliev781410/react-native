@@ -1,30 +1,81 @@
-import React, { useState } from "react";
+import React,  { useState, useEffect, useRef } from "react";
 import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, TextInput, View, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView  } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 
 export default function CreatePostsScreen() {
     const navigation = useNavigation();
 
-    const [posts, setPosts] = useState("");   
+    const [hasPermission, setHasPermission] = useState(null);
+    const [cameraRef, setCameraRef] = useState(null);
+    const [type, setType] = useState(Camera.Constants.Type.back);
+
+    const [posts, setPosts] = useState("");
     const [name, setName] = useState("");
     const [region, setRegion] = useState("");
+    const [photo, setPhoto] = useState("");   
   
     const nameHandler = (text) => setName(text);   
     const regionHandler = (text) => setRegion(text);
+
+    const takePhoto = async () => {
+        if (cameraRef) {
+            const { uri } = await cameraRef.takePictureAsync();
+            await MediaLibrary.createAssetAsync(uri);
+            setPhoto(uri);
+            console.log(photo);
+
+        }
+    };
+    const selectCameraType = () => {
+        setType(
+            type === Camera.Constants.Type.back
+            ? Camera.Constants.Type.front
+            : Camera.Constants.Type.back
+            );
+    };
+
+    useEffect(() => {        
+        (async () => {
+          const { status } = await Camera.requestCameraPermissionsAsync();
+       
+          await MediaLibrary.requestPermissionsAsync();    
+          setHasPermission(status === "granted");
+        })();
+      }, []);
+    
+      if (hasPermission === null) {
+        return <View />;
+      }
+      if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
+      }
+    
  
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>         
             <View style={styles.container}> 
                 <KeyboardAvoidingView
-                 behavior={Platform.OS == "ios" ? "padding" : "height"}> 
-                    <TouchableOpacity>            
-                        <View style={styles.post}>
+                 behavior={Platform.OS == "ios" ? "padding" : "height"}>                          
+                    <View style={styles.post}>
+                        <TouchableOpacity onPress={takePhoto}>    
+                        <Camera 
+                            style={styles.camera}
+                            type={type}
+                            ref={setCameraRef}
+                        >
+                            <View style={styles.takePhotoContainer}>
+                                <Image source={{uri: photo}} style={{flex: 1}}/>
+                            </View>
                             <View style={styles.iconLoadPhoto__container}>
                                 <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
                             </View>
-                        </View>
-                    </TouchableOpacity> 
+                        </Camera>
+                        </TouchableOpacity> 
+                    </View>
+                   
                     <Text style={styles.titlePost}>Завантажте фото</Text>          
                     <TextInput
                         value={name}
@@ -58,7 +109,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         paddingRight: 16, 
         backgroundColor: "#FFFFFF",      
-    },
+    },    
     userContainer: {
         display: "flex",
         flexDirection:'row', 
@@ -98,6 +149,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#E8E8E8",
         borderRadius: 8,  
     },
+    camera: { 
+        flex: 1,       
+    },
+
     titlePost: {
         fontSize: 16,
         color: "#BDBDBD",
@@ -115,6 +170,7 @@ const styles = StyleSheet.create({
         position: "absolute",            
         width: 24,
         height: 24, 
+        zIndex: 100,
     },
     commentsContainer: {
         display: "flex",
@@ -197,5 +253,15 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         color: "#FFFFFF",
         textAlign: "center",     
+    },
+    takePhotoContainer: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: 100,
+        width: 100,
+        borderColor: "#FFFFFF",
+        borderWidth: 1,
+        zIndex: -1,
     },        
 });

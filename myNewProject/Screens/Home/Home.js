@@ -23,11 +23,8 @@ export default function HomeScreen() {
                   }            
                 },
                 tabBarShowLabel: false,
-              })}
-              tabBarOptions={{
-                activeTintColor: "#FF6C00",
-                inactiveTintColor: "gray",                            
-              }}
+              })}              
+
               >  
                 <TabStack.Screen name="Posts" component={PostsScreen} options={{headerTitle: () => <HeaderPosts title="Публікації" /> }}/>            
                 <TabStack.Screen name="Create" component={CreatePostsScreen} options={{headerTitle: () => <HeaderBackToPosts title="Створити публікацію" /> }} />                           
@@ -35,6 +32,11 @@ export default function HomeScreen() {
             </TabStack.Navigator> 
     );
 }
+
+// tabBarOptions={{
+  // activeTintColor: "#FF6C00",
+  // inactiveTintColor: "gray",      
+// }}
 
 const styles = StyleSheet.create({
     iconLoadPhoto__container: {
