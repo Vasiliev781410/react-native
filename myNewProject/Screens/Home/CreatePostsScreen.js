@@ -3,18 +3,19 @@ import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, TextInput,
 import { useNavigation } from '@react-navigation/native';
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
 
 export default function CreatePostsScreen() {
     const navigation = useNavigation();
+    const [location, setLocation] = useState(null);
 
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
 
-    const [posts, setPosts] = useState("");
     const [name, setName] = useState("");
     const [region, setRegion] = useState("");
-    const [photo, setPhoto] = useState("");   
+    const [photo, setPhoto] = useState(null);   
   
     const nameHandler = (text) => setName(text);   
     const regionHandler = (text) => setRegion(text);
@@ -23,11 +24,20 @@ export default function CreatePostsScreen() {
         if (cameraRef) {
             const { uri } = await cameraRef.takePictureAsync();
             await MediaLibrary.createAssetAsync(uri);
-            setPhoto(uri);
-            console.log(photo);
-
+            setPhoto(uri);  
         }
     };
+    const publishPhoto = async () => {
+        // let location = await Location.getCurrentPositionAsync({});
+        // const coords = {
+        //   latitude: location.coords.latitude,
+        //   longitude: location.coords.longitude,
+        // };
+        // setLocation(coords);
+
+        navigation.navigate("DefaultPosts",{photo});
+    };
+
     const selectCameraType = () => {
         setType(
             type === Camera.Constants.Type.back
@@ -36,12 +46,25 @@ export default function CreatePostsScreen() {
             );
     };
 
-    useEffect(() => {        
+    useEffect(() => { 
+        setPhoto(null);       
         (async () => {
           const { status } = await Camera.requestCameraPermissionsAsync();
        
           await MediaLibrary.requestPermissionsAsync();    
           setHasPermission(status === "granted");
+
+          let permission = await Location.requestForegroundPermissionsAsync();
+          if (permission.status !== "granted") {
+            console.log("Permission to access location was denied");
+          } 
+          
+          let location = await Location.getCurrentPositionAsync
+          const coords = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          };
+          setLocation(coords);
         })();
       }, []);
     
@@ -94,8 +117,8 @@ export default function CreatePostsScreen() {
                             <ImageBackground  style={styles.imgBgr} source={require('../../assets/map-pin.png')}/>
                         </TouchableOpacity>
                     </View> 
-                    <TouchableOpacity style={styles.register__btn} onPress={() => navigation.navigate("Posts",{photo})}>
-                        <Text style={styles.register__textBtn}>Опубліковати</Text>
+                    <TouchableOpacity style={photo ? styles.register__btnFinish : styles.register__btn} onPress={publishPhoto}>
+                        <Text style={photo ? styles.register__textBtnFinish : styles.register__textBtn}>Опубліковати</Text>
                     </TouchableOpacity>     
                 </KeyboardAvoidingView>
             </View>
@@ -110,13 +133,13 @@ const styles = StyleSheet.create({
         paddingRight: 16, 
         backgroundColor: "#FFFFFF",      
     },    
-    userContainer: {
-        display: "flex",
-        flexDirection:'row', 
-        flexWrap:'wrap',
-        alignItems: "center",
-        paddingTop: 32,           
-    },
+ 
+ 
+ 
+ 
+ 
+ 
+ 
     imgAvatar: {              
         width: 60,
         height: 60,
@@ -240,6 +263,7 @@ const styles = StyleSheet.create({
         maxWidth: 343, 
         height: 51,
         backgroundColor:  "#FF6C00",
+        color: "#FFFFFF",
         borderRadius: 100,    
     },           
     register__textBtn: {

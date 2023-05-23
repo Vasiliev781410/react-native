@@ -8,7 +8,7 @@ export default function HeaderBackToPosts({title}) {
     return (
         <>
             <View style={styles.container}>                            
-                <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("Posts")}>                
+                <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("DefaultPosts")}>                
                     <ImageBackground  style={styles.imglogout} source={require('../../assets/arrow-left.png')}/>
                 </TouchableOpacity>
                 <Text style={styles.title}>{title}</Text> 
