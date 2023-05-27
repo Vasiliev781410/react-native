@@ -8,16 +8,17 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Alert,
-  Button,
   ImageBackground,
-  Image,
   Text,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import { registerDB } from "../redux/users-operations";
 
 export default function RegistrationScreen() {
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [currentInp, setCurrentInp] = useState("");
@@ -32,9 +33,10 @@ export default function RegistrationScreen() {
   const passwordHandler = (text) => setPassword(text);
   const passwordFocus = (text) => setCurrentInp("password");
 
-  const onLogin = () => {
+  const onRegister = () => {
    // Alert.alert("Credentials", `${name} + ${email} +${password}`);
     console.log("Credentials", `${name} + ${email} +${password}`);
+    dispatch(registerDB({email, password}));
   };
 
   const onShowPass = () => {    
@@ -82,7 +84,7 @@ export default function RegistrationScreen() {
                     <Text style={styles.showBtn}>Показати</Text>
                   </TouchableOpacity> 
                 </View>                                            
-                <TouchableOpacity style={styles.register__btn} onPress={onLogin}>
+                <TouchableOpacity style={styles.register__btn} onPress={onRegister}>
                     <Text style={styles.register__textBtn} >Зареєструватися</Text>
                 </TouchableOpacity> 
                 <TouchableOpacity style={styles.navigate__btn} onPress={() => navigation.navigate("Login")}>

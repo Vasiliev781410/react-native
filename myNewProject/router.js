@@ -9,10 +9,30 @@ const MainStack = createStackNavigator();
 
 export const useRoute = () => {
     return ( 
-    <MainStack.Navigator initialRouteName="Login">   
-       <MainStack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false, title: "Реєстрація"}}/>
-       <MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false, title: "Вхід"}}/>
-       <MainStack.Screen name="Home" component={HomeScreen} options={{headerShown: false, title: "Публікації"}}/>
-    </MainStack.Navigator>
+        <MainStack.Navigator initialRouteName="Login">  
+            <MainStack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false, title: "Реєстрація"}}/>
+            <MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false, title: "Вхід"}}/>
+            <MainStack.Screen name="Home" component={HomeScreen} options={{headerShown: false, title: "Публікації"}}/>
+        </MainStack.Navigator>
     )
 }
+
+// if (!user){
+    // return ( 
+        //<MainStack.Navigator initialRouteName="Login">  
+            //<MainStack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false, title: "Реєстрація"}}/> 
+            //<MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false, title: "Вхід"}}/> 
+            //<MainStack.Screen name="Home" component={HomeScreen} options={{headerShown: false, title: "Публікації"}}/> 
+        //</MainStack.Navigator> 
+// )
+// }else{
+    // return ( 
+    // <MainStack.Navigator initialRouteName="Home">  
+        //<MainStack.Screen name="Registration" component={RegistrationScreen} options={{headerShown: false, title: "Реєстрація"}}/> 
+        //<MainStack.Screen name="Login" component={LoginScreen} options={{headerShown: false, title: "Вхід"}}/> 
+        //<MainStack.Screen name="Home" component={HomeScreen} options={{headerShown: false, title: "Публікації"}}/> 
+    //</MainStack.Navigator> 
+    // )
+// }    
+
+ 

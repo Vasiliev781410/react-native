@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-
 import { StyleSheet, Image, ImageBackground,  TouchableOpacity, Text, View, FlatList} from 'react-native';
+import {  useSelector} from "react-redux";
+import { selectPosts } from "../../redux/posts-selector";
+
 
 export default function DefaultPostsScreen() {
     const navigation = useNavigation();
     const { params } = useRoute();
-    const [posts, setPosts] = useState([]);
+    const posts = useSelector(selectPosts);
+    //const [posts, setPosts] = useState([]);
 
-    useEffect(() => { 
-        if (params){      
-            setPosts(prevState => [...prevState, params]);
-        }
-    }, [params]);
+    // useEffect(() => { 
+        // if (params){      
+            // setPosts(prevState => [...prevState, params]);
+        // }
+    // }, [params]);
     
 
     return (
@@ -33,15 +36,15 @@ export default function DefaultPostsScreen() {
                         <View style={styles.post}>
                             <Image style={{flex: 1}} source={{uri: item.photo}}></Image>  
                         </View>
-                        <Text style={styles.titlePost}>Ліс</Text>
+                        <Text style={styles.titlePost}>{item.name}</Text>
                         <View style={styles.postInfo}>
                             <TouchableOpacity style={styles.commentsContainer} onPress={() => navigation.navigate("Comments")}>
                                 <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
-                                <Text style={styles.comments}>0</Text>
+                                <Text style={styles.comments}>{item.commentsQuantity}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity  style={styles.commentsContainer} onPress={() => navigation.navigate("Map")}>
+                            <TouchableOpacity  style={styles.commentsContainer} onPress={() => navigation.navigate("Map",{location: item.location})}>
                                 <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
-                                <Text style={styles.region}>Ivano-Frankivs'k Region, Ukraine</Text>
+                                <Text style={styles.region}>{item.region}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

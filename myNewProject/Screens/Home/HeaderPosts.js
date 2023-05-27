@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector} from "react-redux";
+import { logoutDB } from "../../redux/users-operations";
+
 
 export default function HeaderPosts({title}) {
     const navigation = useNavigation();
+
+    const dispatch = useDispatch();
+
+    const onLogout = () => {
+         dispatch(logoutDB());
+         console.log('onLogout'); 
+         navigation.navigate("Login");
+       };
+     
 
     return (
         <>
             <View style={styles.container}>
                 <Text style={styles.title}>{title}</Text>             
-                <TouchableOpacity style={styles.logoutContainer} onPress={() => navigation.navigate("Login")}>                
+                <TouchableOpacity style={styles.logoutContainer} onPress={onLogout}>                
                     <ImageBackground  style={styles.imglogout} source={require('../../assets/log-out.png')}/>
                 </TouchableOpacity>
             </View> 

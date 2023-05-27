@@ -3,43 +3,19 @@ import { useNavigation } from '@react-navigation/native';
 import {
   StyleSheet,
   View,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Alert,
-  Button,
   ImageBackground,
   Image,
   Text,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
+import {  useSelector} from "react-redux";
+import { selectPosts } from "../../redux/posts-selector";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
 
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [currentInp, setCurrentInp] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const nameHandler = (text) => setName(text);
-  const nameFocus = (text) =>  setCurrentInp("name");
-  const emailHandler = (text) => setEmail(text);  
-  const emailFocus = (text) => setCurrentInp("email");
-  const passwordHandler = (text) => setPassword(text);
-  const passwordFocus = (text) => setCurrentInp("password");
-
-  const onLogin = () => {
-   // Alert.alert("Credentials", `${name} + ${email} +${password}`);
-    console.log("Credentials", `${name} + ${email} +${password}`);
-  };
-
-  const onShowPass = () => {    
-    setSecureTextEntry(!secureTextEntry);
-  };
+  const posts = useSelector(selectPosts);
 
   return (    
       <View style={styles.container}>
@@ -52,22 +28,38 @@ export default function ProfileScreen() {
                         </ImageBackground> 
                     </View> 
                 </TouchableOpacity>
-                <View style={styles.post}>
-                </View>
-                <Text style={styles.titlePost}>Ліс</Text>
-                <View style={styles.postInfo}>
-                    <TouchableOpacity style={styles.commentsContainer}>
-                        <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
-                        <Text style={styles.comments}>0</Text>
-                        <ImageBackground  style={styles.imgComments} source={require('../../assets/thumbs-up.png')}/>
-                        <Text style={styles.comments}>153</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity  style={styles.commentsContainer}>
-                        <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
-                        <Text style={styles.region}>Ukraine</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>            
+
+                <FlatList 
+                data={posts}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={( {item} ) => (
+                    <View style={styles.postCard}>
+                        <View style={styles.post}>
+                            <Image style={{flex: 1}} source={{uri: item.photo}}></Image>  
+                        </View>
+                        <Text style={styles.titlePost}>{item.name}</Text>
+                        <View style={styles.postInfo}>
+                            <View style={styles.commentsContainer}>
+                              <TouchableOpacity style={styles.commentsContainer} onPress={() => navigation.navigate("Comments")}>
+                                  <ImageBackground  style={styles.imgComments} source={require('../../assets/message-circle.png')}/>
+                                  <Text style={styles.comments}>{item.commentsQuantity}</Text>
+                              </TouchableOpacity>
+                              <TouchableOpacity style={styles.commentsContainer}>
+                                  <ImageBackground  style={styles.imgComments} source={require('../../assets/thumbs-up.png')}/>
+                                  <Text style={styles.comments}>{item.likesQuantity}</Text>
+                              </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity  style={styles.commentsContainer} onPress={() => navigation.navigate("Map",{location: item.location})}>
+                                <ImageBackground  style={styles.imgComments} source={require('../../assets/map-pin.png')}/>
+                                <Text style={styles.region}>{item.region}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )}
+            >
+            </FlatList>
+
+            </View>  
         </ImageBackground>
       </View>   
   );
@@ -234,4 +226,8 @@ const styles = StyleSheet.create({
         color: "#212121",
         textDecorationLine: "underline",      
     },
+    postCard: {
+      marginBottom: 32,
+      justifyContent: "center",     
+  },
 });

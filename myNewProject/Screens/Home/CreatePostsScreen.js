@@ -4,10 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
+import { useDispatch, useSelector} from "react-redux";
+import { addPostThunk } from '../../redux/posts-thunk';
 
 export default function CreatePostsScreen() {
     const navigation = useNavigation();
     const [location, setLocation] = useState(null);
+    const dispatch = useDispatch();
 
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraRef, setCameraRef] = useState(null);
@@ -28,14 +31,15 @@ export default function CreatePostsScreen() {
         }
     };
     const publishPhoto = async () => {
-        // let location = await Location.getCurrentPositionAsync({});
-        // const coords = {
-        //   latitude: location.coords.latitude,
-        //   longitude: location.coords.longitude,
-        // };
-        // setLocation(coords);
-
-        navigation.navigate("DefaultPosts",{photo});
+        let locationCoords = await Location.getCurrentPositionAsync({});
+        const coords = {
+            latitude: locationCoords.coords.latitude,
+           longitude: locationCoords.coords.longitude,
+        };
+        setLocation(coords);
+        const photoObject = {name, region, photo, location: coords, commentsQuantity: 0, commentsItems: [], likesQuantity: 0, likes:[]};
+        dispatch(addPostThunk(photoObject));
+        navigation.navigate("DefaultPosts",photoObject);
     };
 
     const selectCameraType = () => {
@@ -59,12 +63,12 @@ export default function CreatePostsScreen() {
             console.log("Permission to access location was denied");
           } 
           
-          let location = await Location.getCurrentPositionAsync
-          const coords = {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          };
-          setLocation(coords);
+        //   let locationCoords = await Location.getCurrentPositionAsync({});
+        //   const coords = {
+            // latitude: locationCoords.coords.latitude,
+            // longitude: locationCoords.coords.longitude,
+        //   };
+        //   setLocation(coords);
         })();
       }, []);
     
@@ -92,9 +96,9 @@ export default function CreatePostsScreen() {
                             <View style={styles.iconLoadPhoto__container}>
                                 <ImageBackground  style={styles.iconLoadPhoto__img} source={require('../../assets/camera.png')}/> 
                             </View>
-                            {photo && <View style={styles.takePhotoContainer}>
+                            <View style={styles.takePhotoContainer}>
                                 <Image source={{uri: photo}} style={{flex: 1}}/>
-                            </View>}
+                            </View>
                         </Camera>
                         </TouchableOpacity> 
                     </View>

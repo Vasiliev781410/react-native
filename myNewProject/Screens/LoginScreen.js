@@ -15,9 +15,30 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
+import { useDispatch, useSelector} from "react-redux";
+import { loginDB } from "../redux/users-operations";
+import { selectUser } from "../redux/users-selector";
+
 
 export default function LoginScreen() { 
+  const user = useSelector(selectUser);
   const navigation = useNavigation();
+
+  if (user){
+    navigation.navigate("Home");
+  }
+       
+  return (
+    <>
+      {!user && <Login />} 
+    </>
+  );
+}
+
+function Login() { 
+  const navigation = useNavigation();
+          
+  const dispatch = useDispatch();
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [currentInp, setCurrentInp] = useState("");
@@ -30,8 +51,8 @@ export default function LoginScreen() {
   const passwordFocus = (text) => setCurrentInp("password");
                     
   const onLogin = () => {
-    //Alert.alert("Credentials", `${email} +${password}`);
-    console.log("Credentials", `${email} +${password}`);
+   //console.log("Credentials", `${email} +${password}`);
+    dispatch(loginDB({email, password}));
     navigation.navigate("Home");
   };
   const onShowPass = () => {    
@@ -42,7 +63,7 @@ export default function LoginScreen() {
       <View style={styles.container}>
         <ImageBackground  style={styles.imgBgr} source={require('../assets/background.png')}>
             <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" && "padding"}
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
              <View style={styles.form}>
                   <Text style={styles.title}>Увійти</Text>
@@ -79,6 +100,7 @@ export default function LoginScreen() {
     </TouchableWithoutFeedback>
   );
 }
+
 
 //<Image  style={styles.img} source={require('../assets/avatar.png')} />
 const styles = StyleSheet.create({
