@@ -5,7 +5,7 @@ import {
     onAuthStateChanged,
     updateProfile
 } from 'firebase/auth';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
 
 export const registerDB = createAsyncThunk(
   "users/registerUser",
@@ -43,7 +43,7 @@ export const logoutDB = createAsyncThunk(
   "users/logoutUser",
   async () => {
     try {
-    await auth.signOut;  
+    await auth.signOut();  
 
     } catch (error) {
       console.log("error logout ",error.message);
@@ -53,18 +53,33 @@ export const logoutDB = createAsyncThunk(
 );
   
 
-const updateUserProfile = async (update) => {
+export const updateUserProfile = createAsyncThunk(
+    "users/updateUser",
+    async (update) => {
 
-  const user = auth.currentUser;
-
-  // якщо такий користувач знайдений
-  if (user) {
-
-  // оновлюємо його профайл
-        try {
-            await updateProfile(user, update);
-        } catch(error) {
-            throw error
-        }
+    try {  
+    const user = auth.currentUser;
+  } catch(error) {
+      console.log("error user ",error.message);
+    throw error
   }
-};
+    console.log("user ", user);
+    console.log("update ", update);
+
+    // якщо такий користувач знайдений
+    if (user) {
+
+    // оновлюємо його профайл
+          try {
+              await updateProfile(user, update);
+              const user = auth.currentUser;              
+
+              return update;
+          } catch(error) {
+              console.log("error update ",error.message);
+              throw error
+          }
+    }
+  }
+)
+;

@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { registerDB } from "../redux/users-operations";
+import { registerDB, updateUserProfile } from "../redux/users-operations";
 
 export default function RegistrationScreen() {
   const navigation = useNavigation();
@@ -37,6 +37,7 @@ export default function RegistrationScreen() {
    // Alert.alert("Credentials", `${name} + ${email} +${password}`);
     console.log("Credentials", `${name} + ${email} +${password}`);
     dispatch(registerDB({email, password}));
+    dispatch(updateUserProfile({displayName: email, email}));
   };
 
   const onShowPass = () => {    

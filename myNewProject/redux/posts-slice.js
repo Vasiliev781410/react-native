@@ -41,14 +41,14 @@ const postsSlice = createSlice({
         state.posts.isLoading = false;
       })
       .addCase(addPostThunk.fulfilled, (state, { payload }) => { 
-        console.log("addPostThunk payload ",payload);      
+       // console.log("addPostThunk payload ",payload);      
         state.posts.isLoading = false;
         if (state.items){
           state.items = [...state.items,payload];
         }else{
           state.items = [payload];
         }
-        console.log("addPostThunk ",state.items);
+        //console.log("addPostThunk ",state.items);
       });
   },
 });
